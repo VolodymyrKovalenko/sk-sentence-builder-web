@@ -1,0 +1,29 @@
+.card {
+  display: block;
+
+  padding: 18px;
+  border-radius: 10px;
+
+  background: #1f1f1f;
+  border: 1px solid #3a3a3a;
+
+  text-decoration: none;
+  color: inherit;
+
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  border-color: #646cff;
+}
+
+.word {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.translation {
+  font-size: 14px;
+  opacity: 0.7;
+}

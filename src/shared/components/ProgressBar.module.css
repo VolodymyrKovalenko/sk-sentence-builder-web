@@ -1,0 +1,35 @@
+.progressBar {
+  width: 60%;
+  height: 24px;
+
+  margin: 15px auto;
+
+  background: #1f1f1f;
+  border: 2px solid #3a3838;
+  border-radius: 15px;
+
+  display: flex;
+  overflow: hidden;
+}
+
+@media (max-width: 600px) {
+  .progressBar {
+    width: 100%;
+  }
+}
+
+.segment {
+  flex: 1;
+  height: 100%;
+
+  background: #1f1f1f;
+  border: 1px solid #3a3a3a;
+  border-radius: 3px;
+
+  transition: background 0.3s ease;
+}
+
+.segmentFilled {
+  background: #646cff;
+  border-color: #646cff;
+}

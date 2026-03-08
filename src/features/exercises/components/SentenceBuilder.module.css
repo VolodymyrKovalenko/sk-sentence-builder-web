@@ -1,0 +1,72 @@
+.container {
+  max-width: 600px;
+  margin: 40px auto;
+  text-align: center;
+  font-family: sans-serif;
+}
+
+.answerBox {
+  min-height: 60px;
+  border: 2px dashed #ccc;
+  padding: 16px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+}
+
+.wordBank {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+.word {
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: 1px solid #d0d0d0;
+  background: white;
+  font-weight: 500;
+  font-size: 16px;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.word:hover {
+  background: #f1f3f5;
+}
+
+.controls {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.checkButton {
+  /*margin: 15px auto;*/
+  padding: 10px 16px;
+  background: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.resetButton {
+  padding: 10px 16px;
+  background: #777;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.result {
+  margin-top: 20px;
+  font-size: 18px;
+}
+
+.placeholder {
+  color: #999;
+}

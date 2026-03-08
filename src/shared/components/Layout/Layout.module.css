@@ -1,0 +1,58 @@
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  border-bottom: 1px solid #3a3a3a;
+  background: #1f1f1f;
+}
+
+.headerInner {
+  max-width: 1000px;
+  margin: 0 auto;
+
+  height: 60px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 16px;
+}
+
+.logo {
+  font-weight: 600;
+  text-decoration: none;
+  color: white;
+}
+
+.nav {
+  display: flex;
+  gap: 20px;
+}
+
+.navLink {
+  text-decoration: none;
+  color: white;
+  opacity: 0.8;
+  font-size: 14px;
+}
+
+.navLink:hover {
+  opacity: 1;
+}
+
+.main {
+  flex: 1;
+  padding: 24px;
+}
+
+.footer {
+  text-align: center;
+  padding: 12px;
+  font-size: 13px;
+  opacity: 0.6;
+  border-top: 1px solid #3a3a3a;
+}
