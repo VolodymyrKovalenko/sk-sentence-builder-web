@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react"
 import styles from "./SentenceBuilder.module.css"
-import { ProgressBar } from "@/shared/components/ProgressBar"
+import { ProgressBar } from "@/shared/components/ProgressBar/ProgressBar.tsx"
 
 type Exercise = {
   words: string[]
@@ -88,6 +88,7 @@ export function SentenceBuilder({ exercises }: SentenceBuilderProps) {
     return (
       <div className={styles.container}>
         <div className={styles.result}>{result}</div>
+
         <div className={styles.controls}>
           <button className={styles.checkButton} onClick={restartAll}>
             Restart

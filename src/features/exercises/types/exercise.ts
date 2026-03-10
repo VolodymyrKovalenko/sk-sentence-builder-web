@@ -3,8 +3,3 @@ export type Exercise = {
   words: string[]
   correctAnswer: string[]
 }
-
-export type WordLesson = {
-  wordId: number
-  exercises: Exercise[]
-}

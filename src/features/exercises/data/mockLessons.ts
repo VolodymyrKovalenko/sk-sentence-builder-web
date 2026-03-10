@@ -1,4 +1,4 @@
-import type { WordLesson } from "../types/exercise.types"
+import type { WordLesson } from "../types/lesson.ts"
 
 export const mockLessons: WordLesson[] = [
   {

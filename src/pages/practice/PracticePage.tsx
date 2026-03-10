@@ -1,24 +1,59 @@
+import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import { SentenceBuilder } from "@/features/exercises/components/SentenceBuilder"
-import { mockLessons } from "@/features/exercises/data/mockLessons"
-import { mockWords } from "@/features/words/data/mockWords"
+import { getPracticeLesson } from "@/features/exercises/api/getPracticeLesson"
+import type { WordLesson } from "@/features/exercises/types/lesson"
+import { getWords } from "@/features/words/api/getWords"
+import type { Word } from "@/features/words/types/word"
 import styles from "./PracticePage.module.css"
 
 export function PracticePage() {
   const { wordId } = useParams()
-
   const numericWordId = Number(wordId)
 
-  const lesson = mockLessons.find(
-    (lesson) => lesson.wordId === numericWordId
-  )
+  const [lesson, setLesson] = useState<WordLesson | null>(null)
+  const [word, setWord] = useState<Word | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState("")
 
-  const word = mockWords.find(
-    (word) => word.id === numericWordId
-  )
+  useEffect(() => {
+    if (!numericWordId || Number.isNaN(numericWordId)) {
+      setError("Invalid word id")
+      setLoading(false)
+      return
+    }
 
-  if (!lesson || !word) {
-    return <div>Lesson not found</div>
+    async function loadPracticePage() {
+      try {
+        const [lessonData, wordsData] = await Promise.all([
+          getPracticeLesson(numericWordId),
+          getWords(),
+        ])
+
+        const matchedWord = wordsData.find((item) => item.id === numericWordId)
+
+        if (!matchedWord) {
+          throw new Error("Word not found")
+        }
+
+        setLesson(lessonData)
+        setWord(matchedWord)
+      } catch {
+        setError("Lesson not found")
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    loadPracticePage()
+  }, [numericWordId])
+
+  if (loading) {
+    return <div className={styles.container}>Loading...</div>
+  }
+
+  if (error || !lesson || !word) {
+    return <div className={styles.container}>Lesson not found</div>
   }
 
   return (

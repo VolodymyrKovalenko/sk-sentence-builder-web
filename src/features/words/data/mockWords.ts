@@ -1,4 +1,4 @@
-import type { Word } from "../types/word.types"
+import type { Word } from "../types/word.ts"
 
 export const mockWords: Word[] = [
   { id: 1, value: "Dôležitý", translation: "important", topic: "general", level: "A1" },
