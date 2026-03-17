@@ -16,7 +16,7 @@ export function ProgressBar({ total, completed, label = "Progress" }: ProgressBa
     <div className={styles.wrapper}>
       <div className={styles.topRow}>
         <span className={styles.label}>{label}</span>
-        <span className={styles.value}>
+        <span className={styles.text}>
           {percentage}%
         </span>
       </div>

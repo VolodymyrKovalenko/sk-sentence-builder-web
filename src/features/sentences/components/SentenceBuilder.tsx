@@ -1,26 +1,25 @@
 import { useMemo, useState } from "react"
 import styles from "./SentenceBuilder.module.css"
-import { ProgressBar } from "@/shared/components/ProgressBar/ProgressBar.tsx"
-
-type Exercise = {
-  words: string[]
-  correctAnswer: string[]
-}
+import { ProgressBar } from "@/shared/components/ProgressBar/ProgressBar"
+import type { Sentence } from "@/features/sentences/types/sentence"
+import { useNavigate } from "react-router-dom"
 
 type SentenceBuilderProps = {
-  exercises: Exercise[]
+  sentences: Sentence[]
 }
 
-export function SentenceBuilder({ exercises }: SentenceBuilderProps) {
-  const [currentExerciseIndex, setCurrentExerciseIndex] = useState(0)
+export function SentenceBuilder({ sentences }: SentenceBuilderProps) {
+  const navigate = useNavigate()
+  const [currentSentenceIndex, setCurrentSentenceIndex] = useState(0)
   const [selectedWords, setSelectedWords] = useState<string[]>([])
   const [result, setResult] = useState<string | null>(null)
   const [isFinished, setIsFinished] = useState(false)
+  const [wrongAttempts, setWrongAttempts] = useState(0)
 
-  const currentExercise = exercises[currentExerciseIndex]
+  const currentSentence = sentences[currentSentenceIndex]
 
   const availableWords = useMemo(() => {
-    const words = [...currentExercise.words]
+    const words = [...currentSentence.words]
 
     selectedWords.forEach((selectedWord) => {
       const index = words.indexOf(selectedWord)
@@ -30,7 +29,7 @@ export function SentenceBuilder({ exercises }: SentenceBuilderProps) {
     })
 
     return words
-  }, [currentExercise.words, selectedWords])
+  }, [currentSentence.words, selectedWords])
 
   const addWord = (word: string) => {
     setSelectedWords((prev) => [...prev, word])
@@ -42,33 +41,36 @@ export function SentenceBuilder({ exercises }: SentenceBuilderProps) {
     setResult(null)
   }
 
-  const goToNextExercise = () => {
-    const nextIndex = currentExerciseIndex + 1
+  const goToNextSentence = () => {
+    const nextIndex = currentSentenceIndex + 1
 
-    if (nextIndex >= exercises.length) {
+    if (nextIndex >= sentences.length) {
       setIsFinished(true)
-      setResult("🎉 Great job! You completed all exercises.")
+      setResult("🎉 Great job! You completed all sentences.")
       return
     }
 
-    setCurrentExerciseIndex(nextIndex)
+    setCurrentSentenceIndex(nextIndex)
     setSelectedWords([])
     setResult(null)
+    setWrongAttempts(0)
   }
 
   const checkAnswer = () => {
     const isCorrect =
       JSON.stringify(selectedWords) ===
-      JSON.stringify(currentExercise.correctAnswer)
+      JSON.stringify(currentSentence.correct_order)
 
     if (isCorrect) {
       setResult("✅ Correct!")
+      setWrongAttempts(0)
 
       setTimeout(() => {
-        goToNextExercise()
+        goToNextSentence()
       }, 500)
     } else {
       setResult("❌ Try again")
+      setWrongAttempts((prev) => prev + 1)
     }
   }
 
@@ -77,11 +79,8 @@ export function SentenceBuilder({ exercises }: SentenceBuilderProps) {
     setResult(null)
   }
 
-  const restartAll = () => {
-    setCurrentExerciseIndex(0)
-    setSelectedWords([])
-    setResult(null)
-    setIsFinished(false)
+  if (sentences.length === 0) {
+    return <div className={styles.container}>No sentences found</div>
   }
 
   if (isFinished) {
@@ -89,9 +88,24 @@ export function SentenceBuilder({ exercises }: SentenceBuilderProps) {
       <div className={styles.container}>
         <div className={styles.result}>{result}</div>
 
+        <div className={styles.summary}>
+          <h3 className={styles.summaryTitle}>You studied:</h3>
+
+          <div className={styles.summaryList}>
+            {sentences.map((sentence) => (
+              <div key={sentence.id} className={styles.summaryItem}>
+                {sentence.text}
+              </div>
+            ))}
+          </div>
+        </div>
+
         <div className={styles.controls}>
-          <button className={styles.checkButton} onClick={restartAll}>
-            Restart
+          <button
+            className={styles.navButton}
+            onClick={() => navigate("/")}
+          >
+            ← Back to words
           </button>
         </div>
       </div>
@@ -142,9 +156,23 @@ export function SentenceBuilder({ exercises }: SentenceBuilderProps) {
 
       {result && <div className={styles.result}>{result}</div>}
 
+      {wrongAttempts >= 5 ? (
+        <div className={styles.hint}>
+          💡 The sentence is: <strong>{currentSentence.text}</strong>
+        </div>
+      ) : wrongAttempts >= 3 ? (
+        <div className={styles.hint}>
+          💡 First word is: <strong>{currentSentence.first_word}</strong>
+        </div>
+      ) : wrongAttempts >= 1 ? (
+        <div className={styles.hint}>
+          💡 First word starts with: <strong>{currentSentence.first_word[0]}</strong>
+        </div>
+      ) : null}
+
       <ProgressBar
-        total={exercises.length}
-        completed={currentExerciseIndex}
+        total={sentences.length}
+        completed={currentSentenceIndex}
       />
     </div>
   )

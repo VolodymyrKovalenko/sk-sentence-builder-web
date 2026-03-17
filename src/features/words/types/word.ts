@@ -1,6 +1,6 @@
 export type Word = {
   id: number
-  value: string
+  text: string
   translation: string
   topic: string
   level: string

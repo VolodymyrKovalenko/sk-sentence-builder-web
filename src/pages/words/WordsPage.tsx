@@ -11,9 +11,9 @@ export function WordsPage() {
 
   useEffect(() => {
     getDailyWords()
-      .then(setWords)
-      .catch(() => setError("Could not load daily words"))
-      .finally(() => setLoading(false))
+        .then(setWords)
+        .catch(() => setError("Could not load daily words"))
+        .finally(() => setLoading(false))
   }, [])
 
   if (loading) {
@@ -25,19 +25,34 @@ export function WordsPage() {
   }
 
   return (
-    <div className={styles.container}>
-<h1 className={styles.title}>Today's Words 📚</h1>
-      <div className={styles.grid}>
-        {words.map((word) => (
-          <WordCard
-            key={word.id}
-            id={word.id}
-            value={word.value}
-            translation={word.translation}
-            level={word.level}
-          />
-        ))}
+      <div className={styles.page}>
+        <section className={styles.hero}>
+          <div className={styles.heroTop}>Daily practice</div>
+          <h1 className={styles.title}>Today’s Slovak words</h1>
+          <p className={styles.subtitle}>
+            Learn useful vocabulary in short, focused sessions. Review meanings,
+            notice patterns, and build consistency one day at a time.
+          </p>
+        </section>
+
+        <section className={styles.wordsSection}>
+          <div className={styles.sectionHeader}>
+            <h2>Word collection</h2>
+            <span className={styles.wordsCount}>{words.length} items</span>
+          </div>
+
+          <div className={styles.grid}>
+            {words.map((word) => (
+                <WordCard
+                    key={word.id}
+                    id={word.id}
+                    value={word.text}
+                    translation={word.translation}
+                    level={word.level}
+                />
+            ))}
+          </div>
+        </section>
       </div>
-    </div>
   )
 }
